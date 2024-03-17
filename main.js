@@ -1,4 +1,4 @@
-const matrix = [
+const matrix1 = [
   [">", "-", "-", "-", "A", "-", "-", "-", "+"],
   [" ", " ", " ", " ", " ", " ", " ", " ", "|"],
   ["s", "-", "B", "-", "+", " ", " ", " ", "C"],
@@ -29,64 +29,88 @@ function findStartingIndex(matrix, element = ">") {
   return false;
 }
 
-// Start at ">" and append to path array
-
-let currentIndex = findStartingIndex(matrix);
-path.push(matrix[currentIndex[0]][currentIndex[1]]);
-
-let previous_row = currentIndex[0];
-let previous_col = currentIndex[1];
-
+// Search right, left, up, and down for elements at an index different than the previous element
 function searchMatrix(matrix) {
+  // Start at ">" and append to path array
+
+  let currentIndex = findStartingIndex(matrix);
+  path.push(matrix[currentIndex[0]][currentIndex[1]]);
+
+  let previousRow = currentIndex[0];
+  let previousColumn = currentIndex[1];
+
   while (currentIndex && matrix[currentIndex[0]][currentIndex[1]] !== "s") {
-    const row = currentIndex[0];
-    const col = currentIndex[1];
+    const currentRow = currentIndex[0];
+    const currentColumn = currentIndex[1];
 
     // Check right, left, up, down
+
+    //RIGHT
     if (
-      row + 1 < matrix.length &&
-      matrix[row + 1][col] !== " " &&
-      (row + 1 !== previous_row || col !== previous_col)
+      //Check if element is out of bounds, wall (" "), or already traversed element
+      currentRow + 1 >= 0 &&
+      currentColumn >= 0 &&
+      currentRow + 1 < matrix.length &&
+      currentColumn < matrix[currentRow + 1].length &&
+      matrix[currentRow + 1][currentColumn] !== " " &&
+      (currentRow + 1 !== previousRow || currentColumn !== previousColumn)
     ) {
-      previous_row = row;
-      previous_col = col;
-      currentIndex = [row + 1, col];
+      // Proceed to next element
+      previousRow = currentRow;
+      previousColumn = currentColumn;
+      currentIndex = [currentRow + 1, currentColumn];
+      // Append newfound element to array
       path.push(matrix[currentIndex[0]][currentIndex[1]]);
       if (/^[A-Z]$/.test(matrix[currentIndex[0]][currentIndex[1]])) {
         letters.push(matrix[currentIndex[0]][currentIndex[1]]);
       }
-    } else if (
-      row - 1 >= 0 &&
-      matrix[row - 1][col] !== " " &&
-      (row - 1 !== previous_row || col !== previous_col)
+    }
+    //LEFT
+    else if (
+      currentRow - 1 >= 0 &&
+      currentColumn >= 0 &&
+      currentRow - 1 < matrix.length &&
+      currentColumn < matrix[currentRow - 1].length &&
+      matrix[currentRow - 1][currentColumn] !== " " &&
+      (currentRow - 1 !== previousRow || currentColumn !== previousColumn)
     ) {
-      previous_row = row;
-      previous_col = col;
-      currentIndex = [row - 1, col];
+      previousRow = currentRow;
+      previousColumn = currentColumn;
+      currentIndex = [currentRow - 1, currentColumn];
       path.push(matrix[currentIndex[0]][currentIndex[1]]);
       if (/^[A-Z]$/.test(matrix[currentIndex[0]][currentIndex[1]])) {
         letters.push(matrix[currentIndex[0]][currentIndex[1]]);
       }
-    } else if (
-      col - 1 >= 0 &&
-      matrix[row][col - 1] !== " " &&
-      (row !== previous_row || col - 1 !== previous_col)
+    }
+    //UP
+    else if (
+      currentRow >= 0 &&
+      currentColumn - 1 >= 0 &&
+      currentRow < matrix.length &&
+      currentColumn - 1 < matrix[currentRow].length &&
+      matrix[currentRow][currentColumn - 1] !== " " &&
+      (currentRow !== previousRow || currentColumn - 1 !== previousColumn)
     ) {
-      previous_row = row;
-      previous_col = col;
-      currentIndex = [row, col - 1];
+      previousRow = currentRow;
+      previousColumn = currentColumn;
+      currentIndex = [currentRow, currentColumn - 1];
       path.push(matrix[currentIndex[0]][currentIndex[1]]);
       if (/^[A-Z]$/.test(matrix[currentIndex[0]][currentIndex[1]])) {
         letters.push(matrix[currentIndex[0]][currentIndex[1]]);
       }
-    } else if (
-      col + 1 < matrix[row].length &&
-      matrix[row][col + 1] !== " " &&
-      (row !== previous_row || col + 1 !== previous_col)
+    }
+    //DOWN
+    else if (
+      currentRow >= 0 &&
+      currentColumn + 1 >= 0 &&
+      currentRow < matrix.length &&
+      currentColumn + 1 < matrix[currentRow].length &&
+      matrix[currentRow][currentColumn + 1] !== " " &&
+      (currentRow !== previousRow || currentColumn + 1 !== previousColumn)
     ) {
-      previous_row = row;
-      previous_col = col;
-      currentIndex = [row, col + 1];
+      previousRow = currentRow;
+      previousColumn = currentColumn;
+      currentIndex = [currentRow, currentColumn + 1];
       path.push(matrix[currentIndex[0]][currentIndex[1]]);
       if (/^[A-Z]$/.test(matrix[currentIndex[0]][currentIndex[1]])) {
         letters.push(matrix[currentIndex[0]][currentIndex[1]]);
@@ -95,11 +119,13 @@ function searchMatrix(matrix) {
       // If no valid moves found, break
       break;
     }
-
-    console.log(matrix[currentIndex[0]][currentIndex[1]]);
   }
 }
 
-searchMatrix(matrix2);
-console.log(path);
-console.log(letters);
+searchMatrix(matrix1);
+
+let pathString = path.join("");
+let lettersString = letters.join("");
+
+console.log(pathString);
+console.log(lettersString);
