@@ -1,0 +1,20 @@
+{
+  "name": "matrix-path",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodus8tollens/matrix-path.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nodus8tollens/matrix-path/issues"
+  },
+  "homepage": "https://github.com/nodus8tollens/matrix-path#readme"
+}
